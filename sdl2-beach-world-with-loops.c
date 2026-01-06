@@ -6,6 +6,8 @@
 #define WINDOW_WIDTH 1250
 #define WINDOW_HEIGHT 700
 
+#define num_Objects 9
+
 
 typedef struct{
     float x, y, w, h;
@@ -49,8 +51,11 @@ int main(int argc, char *argv[]){
         {1000, 3100, 10, 200}, // Tree1
         {500, 50, 300, 700}, // Tree
     };
+
+   // int num_Objects = sizeof(Objects) / sizeof(Objects[0]);
+
     // *TRUE* TELLS US IT IS SOLID SO IT WOULD COLLIDE BUT *FALSE* TELLS US THAT IT ISN'T SOLID, AND CAN BE COLLIDED WITH OR OVERLAPED
-    bool Collidable[9] = {
+    bool Collidable[num_Objects] = {
         true, // Car1
         true, // Car
         true, // Truck
@@ -70,7 +75,7 @@ int main(int argc, char *argv[]){
         return 1;
     }
     SDL_Window *window = SDL_CreateWindow(
-        "Home Game",
+        "Beach Game",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH,
@@ -90,8 +95,8 @@ int main(int argc, char *argv[]){
         SDL_Quit();
         return 1;
     }
-    SDL_Texture *textures[9];
-    const char *filenames[9] = {
+    SDL_Texture *textures[num_Objects];  // Will Sizeof Operators be functional in this place instead of just changing the values of 9 all the time
+    const char *filenames[num_Objects] = {
         "Car1.png",
         "Car.png",
         "Truck.png",
@@ -101,7 +106,7 @@ int main(int argc, char *argv[]){
         "Road.png",
         "Tree.png",
         "Tree1.png"
-    };
+    }; 
 
     if(IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG){
         printf("PNG Image not loading : %s\n", IMG_GetError());
@@ -121,7 +126,7 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    for(int i = 0; i < 9; i++){
+    for(int i = 0; i < num_Objects; i++){
         textures[i] = IMG_LoadTexture(renderer, filenames[i]);
 
         if(!textures[i]){
@@ -188,7 +193,7 @@ int main(int argc, char *argv[]){
         if(right) Player.x += move_amount;
         if(left) Player.x -= move_amount;
 
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < num_Objects; i++){
             if(checkOverlap(Player, Objects[i]) && Collidable[i]){
                 Player.x = old_x ;
                 Player.y = old_y;
@@ -202,7 +207,7 @@ int main(int argc, char *argv[]){
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 150);
         SDL_RenderClear(renderer);
 
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < num_Objects; i++){
             SDL_Rect r = WorldToScreen(Objects[i], cam);
             SDL_RenderCopy(renderer, textures[i], NULL, &r);
         }
@@ -216,7 +221,7 @@ int main(int argc, char *argv[]){
 
     }
     SDL_DestroyTexture(Player_Texture);
-    for(int i = 0; i < 9; i++){
+    for(int i = 0; i < num_Objects; i++){
         SDL_DestroyTexture(textures[i]);
     }
     IMG_Quit();
