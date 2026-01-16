@@ -193,6 +193,18 @@ int main(int argc, char *argv[]){
         if(right) Player.x += move_amount;
         if(left) Player.x -= move_amount;
 
+        //BOUNDARY CREATION
+        float world_min_x = -1000;
+        float world_max_x = 1200;
+        float world_min_y = -3000;
+        float world_max_y = 2000;
+        
+        if(Player.x < world_min_x) Player.x = world_min_x;
+        if(Player.x + Player.w > world_max_x) Player.x = world_max_x - Player.w;
+        if(Player.y < world_min_y) Player.y = world_min_y;
+        if(Player.y + Player.h > world_max_y) Player.y = world_max_y - Player.h;
+
+
         for(int i = 0; i < num_Objects; i++){
             if(checkOverlap(Player, Objects[i]) && Collidable[i]){
                 Player.x = old_x ;
