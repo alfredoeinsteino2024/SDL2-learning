@@ -144,7 +144,7 @@ int main(int argc, char* argv[]){
         Uint32 current_time = SDL_GetTicks();
         float delta_time = (current_time - last_time) / 1000.0f;
         last_time = current_time; 
-        float move_amount = 200.0f * delta_time; // We are using 200 Frame per Seconds
+        float move_amount = 400.0f * delta_time; // We are using 200 Frame per Seconds
 
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_QUIT){
@@ -184,7 +184,7 @@ int main(int argc, char* argv[]){
         if(right) Player.x += move_amount; 
 
         float world_min_x = -1000;
-        float world_max_x = 2000;
+        float world_max_x = 1500;
         float world_min_y = 0;
         float world_max_y = 2000;
 
