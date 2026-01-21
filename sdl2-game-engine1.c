@@ -3,7 +3,7 @@
 #include<stdbool.h>
 #include<SDL2/SDL_image.h>
 
-#define WINDOW_WIDTH 1200
+#define WINDOW_WIDTH 1100
 #define WINDOW_HEIGHT 700
 #define num_Objects 7
 
