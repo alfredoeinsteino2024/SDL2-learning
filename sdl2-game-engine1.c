@@ -2,8 +2,9 @@
 #include<stdio.h>
 #include<stdbool.h>
 #include<SDL2/SDL_image.h>
+#include<math.h>
 
-#define WINDOW_WIDTH 1100
+#define WINDOW_WIDTH 1200
 #define WINDOW_HEIGHT 700
 #define num_Objects 7
 
@@ -55,7 +56,7 @@ int main(int argc, char* argv[]){
         return 1;
     }
     SDL_Window *window = SDL_CreateWindow(
-        "Game Engine1",
+        "Game Engine",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH,
@@ -144,7 +145,7 @@ int main(int argc, char* argv[]){
         Uint32 current_time = SDL_GetTicks();
         float delta_time = (current_time - last_time) / 1000.0f;
         last_time = current_time; 
-        float move_amount = 400.0f * delta_time; // We are using 200 Frame per Seconds
+        float move_amount = 350.0f * delta_time; // We are using 200 Frame per Seconds
 
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_QUIT){
@@ -178,16 +179,31 @@ int main(int argc, char* argv[]){
         float old_x = Player.x;
         float old_y = Player.y;
 
-        if(up) Player.y -= move_amount;
-        if(down) Player.y += move_amount;
-        if(left) Player.x -= move_amount;
-        if(right) Player.x += move_amount; 
+        float dx = 0;
+        float dy = 0;
 
+        // PART FOR DIAGONAL MOVEMENT
+        if(up) dy -=1;
+        if(down) dy +=1;
+        if(left) dx -=1;
+        if(right) dx +=1;
+
+        if(dx !=0 || dy != 0){
+            float length = sqrt(dx*dx + dy*dy);
+            dy = dy / length;
+            dx = dx / length;
+        }
+        Player.x += dx * move_amount;
+        Player.y += dy * move_amount;
+
+
+         // BOUNDARY CREATION IN PROGRESS
         float world_min_x = -1000;
         float world_max_x = 1500;
         float world_min_y = 0;
         float world_max_y = 2000;
-
+        
+        //Player cannot cross this boundary specified
         if(Player.x < world_min_x) Player.x = world_min_x;
         if(Player.x + Player.w > world_max_x) Player.x = world_max_x - Player.w;
         if(Player.y < world_min_y) Player.y = world_min_y;
