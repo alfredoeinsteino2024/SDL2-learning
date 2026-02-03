@@ -38,7 +38,7 @@ bool CheckOverlap(WorldRect A, WorldRect B) {
 
 int main(int argc, char* argv[]){
 
-    WorldRect Player = {-300, -300, 150, 250};
+    WorldRect carPlayer = {-300, -300, 300, 350};
     Camera cam = {0, 0};
 
     WorldRect Objects[num_Objects] = {  
@@ -69,7 +69,11 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+    SDL_Renderer *renderer = SDL_CreateRenderer(window,
+         -1, 
+         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+        );
+        
     if(!renderer){
         printf("Renderer not Initializing: %s\n", SDL_GetError());
         SDL_DestroyWindow(window);
@@ -107,8 +111,8 @@ int main(int argc, char* argv[]){
 
     SDL_Texture *textures[7];
 
-    SDL_Texture* Player_texture = IMG_LoadTexture(renderer, "Player.png");
-    if(!Player_texture){
+    SDL_Texture* carPlayer_texture = IMG_LoadTexture(renderer, "carPlayer.png");
+    if(!carPlayer_texture){
         printf("Player PNG not Loading: %s\n", IMG_GetError());
         IMG_Quit();
         SDL_DestroyRenderer(renderer);
@@ -121,7 +125,7 @@ int main(int argc, char* argv[]){
         textures[i] = IMG_LoadTexture(renderer, filenames[i]);
         if(!textures[i]){
             printf("%s PNG not Loading...: %s\n", filenames[i], IMG_GetError());
-            SDL_DestroyTexture(Player_texture);
+            SDL_DestroyTexture(carPlayer_texture);
 
           for(int j = 0; j < i; j++){
             SDL_DestroyTexture(textures[j]);
@@ -145,7 +149,7 @@ int main(int argc, char* argv[]){
         Uint32 current_time = SDL_GetTicks();
         float delta_time = (current_time - last_time) / 1000.0f;
         last_time = current_time; 
-        float move_amount = 350.0f * delta_time; // We are using 200 Frame per Seconds
+        float move_amount = 500.0f * delta_time; // We are using 200 Frame per Seconds
 
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_QUIT){
@@ -176,8 +180,8 @@ int main(int argc, char* argv[]){
             }
         }
          
-        float old_x = Player.x;
-        float old_y = Player.y;
+        float old_x = carPlayer.x;
+        float old_y =carPlayer.y;
 
         float dx = 0;
         float dy = 0;
@@ -193,8 +197,8 @@ int main(int argc, char* argv[]){
             dy = dy / length;
             dx = dx / length;
         }
-        Player.x += dx * move_amount;
-        Player.y += dy * move_amount;
+        carPlayer.x += dx * move_amount;
+        carPlayer.y += dy * move_amount;
 
 
          // BOUNDARY CREATION IN PROGRESS
@@ -204,21 +208,21 @@ int main(int argc, char* argv[]){
         float world_max_y = 2000;
         
         //Player cannot cross this boundary specified
-        if(Player.x < world_min_x) Player.x = world_min_x;
-        if(Player.x + Player.w > world_max_x) Player.x = world_max_x - Player.w;
-        if(Player.y < world_min_y) Player.y = world_min_y;
-        if(Player.y + Player.h > world_max_y) Player.y = world_max_y - Player.h;
+        if(carPlayer.x < world_min_x) carPlayer.x = world_min_x;
+        if(carPlayer.x + carPlayer.w > world_max_x) carPlayer.x = world_max_x - carPlayer.w;
+        if(carPlayer.y < world_min_y) carPlayer.y = world_min_y;
+        if(carPlayer.y + carPlayer.h > world_max_y) carPlayer.y = world_max_y - carPlayer.h;
 
 
         for(int i = 0; i < num_Objects; i++){
-            if(CheckOverlap(Player, Objects[i]) && Collidable[i]){
-                Player.x = old_x;
-                Player.y = old_y;
+            if(CheckOverlap(carPlayer, Objects[i]) && Collidable[i]){
+                carPlayer.x = old_x;
+                carPlayer.y = old_y;
                 break;
             }
         }
-        cam.x = Player.x + Player.w / 2;
-        cam.y = Player.y + Player.h / 2;
+        cam.x = carPlayer.x + carPlayer.w / 2;
+        cam.y = carPlayer.y + carPlayer.h / 2;
 
 
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 100);
@@ -229,12 +233,12 @@ int main(int argc, char* argv[]){
             SDL_RenderCopy(renderer, textures[i], NULL, &r);
         }
 
-        SDL_Rect SPlayer = WorldToScreen(Player, cam);
-        SDL_RenderCopy(renderer, Player_texture, NULL, &SPlayer);
+        SDL_Rect ScarPlayer = WorldToScreen(carPlayer, cam);
+        SDL_RenderCopy(renderer, carPlayer_texture, NULL, &ScarPlayer);
 
         SDL_RenderPresent(renderer);
     }
-    SDL_DestroyTexture(Player_texture);
+    SDL_DestroyTexture(carPlayer_texture);
     for(int i = 0; i < num_Objects; i++){
         SDL_DestroyTexture(textures[i]);
     }
