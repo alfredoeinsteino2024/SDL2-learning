@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define WINDOW_WIDTH  900
+#define WINDOW_HEIGHT  650
+
 typedef struct{
     float x, y, w, h;
 } WorldRect;
@@ -14,9 +17,18 @@ SDL_Rect worldToScreen(WorldRect w, Camera cam){
     SDL_Rect r;
     r.w = w.w;
     r.h = w.h;
-    r.x = w.x - cam.x + 450; 
-    r.y = w.y - cam.y + 325;
+    r.x = w.x - cam.x + WINDOW_WIDTH / 2; 
+    r.y = w.y - cam.y + WINDOW_HEIGHT/ 2;
     return r; 
+}
+
+bool checkOverlap(WorldRect A, WorldRect B){
+    if(A.x >= B.x + B.w) return false; // A is right of B
+    if(A.x + A.w <= B.x) return false; // A is left of B
+    if(A.y + A.h <= B.y) return false; // A is completely Above
+    if(A.y >= B.y + B.h) return false; // A is completely Below
+
+    return true;
 }
 
 int main(int argc, char *argv[]) {
@@ -29,11 +41,11 @@ int main(int argc, char *argv[]) {
     }
 
     SDL_Window *window = SDL_CreateWindow(
-        "GRASS",
+        "Velocity_Test",
         SDL_WINDOWPOS_CENTERED,        
         SDL_WINDOWPOS_CENTERED,
-        900,
-        650,
+        WINDOW_WIDTH,
+        WINDOW_HEIGHT,
         0
     );
 
@@ -43,16 +55,19 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!renderer) {
         printf("Renderer not initializing: %s\n", SDL_GetError());
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
     }
 
     SDL_Event event;
     bool running = true;
 
-    SDL_Rect box = {0, 0, 200, 100};
-    SDL_Rect box1 = {500, 0, 200, 100};
+    WorldRect box = {0, 0, 200, 100};
+    WorldRect box1 = {500, 0, 200, 100};
 
     bool up = false, down = false, left = false, right = false;
 
@@ -86,7 +101,11 @@ int main(int argc, char *argv[]) {
                 }
             }
         }  
+        
+        vx = 0;
+        vy = 0;
 
+        // MOVING AT CONSTANT SPEED
         if (up)    vy = -speed;
         if (down)  vy = speed;
         if (left)  vx = -speed;
@@ -95,23 +114,35 @@ int main(int argc, char *argv[]) {
         box.x += vx;
         box.y +=vy;
 
-        // Keep box inside the screen
-        if (box.x <= 1 && box1.x <= 1 ){box.x = 0;  box1.x = 0;} 
-        if (box.y <= 1 && box1.y <= 1 ){ box.y = 0;  box1.y =0;}
-        
+        // CREATION OF BOUNDARY
+        float World_max_x = 1000.0f;
+        float World_min_x = -1000.0f;
+        float World_max_y = 800.0f;
+        float World_min_y = -800.0f;
 
-        if (box.x >= 900 && box1.x >= 900 ) {box.x = 900  - box.w;  box1.x = 900; }
-        if (box.y >= 650 && box1.y >= 650)  { box.y = 650 - box.h;  box1.y = 650;  }
+        if(box.x + box.w > World_max_x ) box.x = World_max_x;
+        if(box.x < World_min_x ) box.x = World_min_x;
 
-        // Draw
+        if(box.y + box.w > World_max_y ) box.y = World_max_y;
+        if(box.y < World_min_y ) box.y = World_min_y;
+
+        if(checkOverlap(player, box)){
+            box.x -= vx;
+            box.y -= vy;
+        }
+
+        cam.x = box.x + box.w / 2;
+
         SDL_SetRenderDrawColor(renderer, 0, 230, 0, 100);
         SDL_RenderClear(renderer);
-
+        
+        SDL_Rect Sbox = worldToScreen(box, cam);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &box);
-
+        SDL_RenderFillRect(renderer, &Sbox);
+        
+        SDL_Rect Sbox1 = worldToScreen(box1, cam);
         SDL_SetRenderDrawColor(renderer, 235, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &box1);
+        SDL_RenderFillRect(renderer, &Sbox1);
 
         SDL_RenderPresent(renderer); 
     }
