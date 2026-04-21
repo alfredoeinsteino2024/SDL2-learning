@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
 
         // Generate pulse
         float pulse = sin(t) + 0.5 * sin(2 * t) + 0.333 * sin(3 * t) + 0.25 * sin(4 * t);
-        t += 1.0;
+        t += 0.1;
 
         int newY = (HEIGHT / 2) - (int)(pulse * 80);
 
