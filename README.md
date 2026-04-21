@@ -1,11 +1,28 @@
 # SDL2 Learning Projects
-This branch contains my SDL2 learning journey with various projects and exercises.
+This branch contains my SDL2 learning journey with 
+various projects and exercises.
 
 ## Projects
 
-### Latest: SDL2 Learning Project (`sdl2-game-engine.c`)
-✨ **NEW: Practicing diagonal movement with vector normalization**
+### Latest: PulseGuard Monitor (`heartrate.c`)
+✨ **NEW: Real-time ECG-style heartbeat waveform visualizer**
 
+A project born from a real health monitoring system 
+I was building with my team. I explored how low-level 
+C programming could be integrated into medical 
+visualizations.
+
+**What I implemented:**
+- Real-time scrolling waveform using array shifting
+- Fourier-inspired sine wave formula for pulse generation
+- SDL2 hardware-accelerated rendering
+- Coordinate system conversion for correct wave display
+
+**The Math Behind It:**
+f(t) = sin(t) + 1/2*sin(2t) + 1/3*sin(3t) + 1/4*sin(4t)
+
+### Previous: SDL2 Game Engine (`sdl2-game-engine.c`)
+✨ **Practicing diagonal movement with vector normalization**
 A learning project where I'm practicing:
 - Normalized diagonal movement using vector math
 - Hardware-accelerated rendering
@@ -19,9 +36,10 @@ A learning project where I'm practicing:
 - Array-based object management with 7 objects
 - Boolean flags for collision detection
 
-Still learning and improving - not a complete game, but solid practice!
+Still learning and improving - not a complete game, 
+but solid practice!
 
-### Previous: SDL2 Beach World - Refactored Version (`sdl2-beach-world-with-loops.c`)
+### Earlier: SDL2 Beach World (`sdl2-beach-world-with-loops.c`)
 Practice project with for loops and selective collision:
 - Arrays and for loops instead of repetition
 - Selective collision system
@@ -29,7 +47,8 @@ Practice project with for loops and selective collision:
 
 ### Earlier Projects:
 - `sdl2-beach-world.c` - Original version (repetitive code)
-- `sdl2-sprite-game.c` and `sdl2-sprite-game-with-loops.c` - Sprite practice
+- `sdl2-sprite-game.c` and `sdl2-sprite-game-with-loops.c` 
+  - Sprite practice
 
 ## Learning Progression:
 1. `01_Open_Window.c` - Basic SDL2 window
@@ -41,11 +60,11 @@ Practice project with for loops and selective collision:
 7. `sdl2-sprite-game.c` - Complete game with textures
 8. `sdl2-sprite-game-with-loops.c` - Refactored with for loops
 9. `sdl2-beach-world.c` - Beach world game
-10. `sdl2-beach-world-with-loops.c` - Beach world with for loops
-11. `sdl2-game-engine.c` - **Practicing vector normalization** ⭐
+10. `sdl2-beach-world-with-loops.c` - Beach world with loops
+11. `sdl2-game-engine.c` - Practicing vector normalization ⭐
+12. `heartrate.c` - Real-time pulse waveform monitor 🫀
 
 ## What I'm Learning
-
 ### Code Organization
 - Arrays instead of repetitive variables
 - For loops for cleaner code
@@ -55,7 +74,12 @@ Practice project with for loops and selective collision:
 - Collision detection
 - Camera systems
 - Delta time for smooth movement
-- Vector normalization (why diagonal movement needs adjustment)
+- Vector normalization
+
+### Mathematics in Programming
+- Fourier sine wave synthesis
+- Coordinate system conversion
+- Harmonic frequency and amplitude
 
 ### Performance
 - Hardware acceleration
@@ -69,13 +93,18 @@ Practice project with for loops and selective collision:
 
 ## Compilation
 ```bash
-# Compile latest version
-gcc sdl2-game-engine.c -lSDL2 -lSDL2_image -lm -o game
+# Compile PulseGuard Monitor
+gcc heartrate.c -lSDL2 -lm -o heartrate
 
-# Note: -lm flag needed for math.h
+# Compile latest game engine
+gcc sdl2-game-engine.c -lSDL2 -lSDL2_image -lm -o game
 ```
 
 ## Current Focus
-Learning vector mathematics and how it applies to game development. Understanding the theory, then implementing it in code.
+Exploring how C programming and SDL2 can be applied 
+to real world problems like health monitoring systems. 
+Understanding mathematics and how it applies to 
+programming.
 
-These are learning exercises, not polished projects - but that's the point! 🚀
+These are learning exercises, not polished projects 
+- but that's the point! 🚀
