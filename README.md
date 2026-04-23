@@ -19,10 +19,14 @@ visualizations.
 - Coordinate system conversion for correct wave display
 
 **The Math Behind It:**
+
 f(t) = sin(t) + 1/2*sin(2t) + 1/3*sin(3t) + 1/4*sin(4t)
+
+---
 
 ### Previous: SDL2 Game Engine (`sdl2-game-engine.c`)
 ✨ **Practicing diagonal movement with vector normalization**
+
 A learning project where I'm practicing:
 - Normalized diagonal movement using vector math
 - Hardware-accelerated rendering
@@ -39,16 +43,35 @@ A learning project where I'm practicing:
 Still learning and improving - not a complete game, 
 but solid practice!
 
+---
+
+### Earlier: Gravity Simulation (`gravity_learn.c`)
+Practice project for frame-rate independent physics:
+- Delta time for smooth, frame-rate independent movement
+- Gravity and velocity accumulation
+- Ground collision detection
+- Basic SDL2 game loop structure
+
+> Note: the player and ground are rendered the same color —
+> a small bug I noticed after the fact. Left as-is since
+> this is a learning snapshot, not a polished project.
+
+---
+
 ### Earlier: SDL2 Beach World (`sdl2-beach-world-with-loops.c`)
 Practice project with for loops and selective collision:
 - Arrays and for loops instead of repetition
 - Selective collision system
 - World boundaries
 
+---
+
 ### Earlier Projects:
 - `sdl2-beach-world.c` - Original version (repetitive code)
 - `sdl2-sprite-game.c` and `sdl2-sprite-game-with-loops.c` 
   - Sprite practice
+
+---
 
 ## Learning Progression:
 1. `01_Open_Window.c` - Basic SDL2 window
@@ -61,10 +84,14 @@ Practice project with for loops and selective collision:
 8. `sdl2-sprite-game-with-loops.c` - Refactored with for loops
 9. `sdl2-beach-world.c` - Beach world game
 10. `sdl2-beach-world-with-loops.c` - Beach world with loops
-11. `sdl2-game-engine.c` - Practicing vector normalization ⭐
-12. `heartrate.c` - Real-time pulse waveform monitor 🫀
+11. `gravity.c` - Frame-rate independent gravity simulation
+12. `sdl2-game-engine.c` - Practicing vector normalization ⭐
+13. `heartrate.c` - Real-time pulse waveform monitor 🫀
+
+---
 
 ## What I'm Learning
+
 ### Code Organization
 - Arrays instead of repetitive variables
 - For loops for cleaner code
@@ -76,6 +103,11 @@ Practice project with for loops and selective collision:
 - Delta time for smooth movement
 - Vector normalization
 
+### Physics Simulation
+- Frame-rate independent movement with delta time
+- Velocity and gravity accumulation
+- Ground collision response
+
 ### Mathematics in Programming
 - Fourier sine wave synthesis
 - Coordinate system conversion
@@ -85,11 +117,15 @@ Practice project with for loops and selective collision:
 - Hardware acceleration
 - VSync for smoother visuals
 
+---
+
 ## Tech Stack
 - C Programming
 - SDL2
 - SDL2_image
 - math.h
+
+---
 
 ## Compilation
 ```bash
@@ -98,7 +134,12 @@ gcc heartrate.c -lSDL2 -lm -o heartrate
 
 # Compile latest game engine
 gcc sdl2-game-engine.c -lSDL2 -lSDL2_image -lm -o game
+
+# Compile gravity simulation
+gcc gravity.c -lSDL2 -o gravity
 ```
+
+---
 
 ## Current Focus
 Exploring how C programming and SDL2 can be applied 
