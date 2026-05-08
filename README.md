@@ -1,12 +1,29 @@
 # SDL2 Learning Projects
 This branch contains my SDL2 learning journey with 
 various projects and exercises.
-
 ## Projects
+### Latest: SDL2 TTF Text Rendering (`sdl_ttf_text_rendering.c`)
+✨ **NEW: Rendering text to an SDL2 window using SDL2_ttf**
 
-### Latest: PulseGuard Monitor (`heartrate.c`)
-✨ **NEW: Real-time ECG-style heartbeat waveform visualizer**
+A project focused on integrating TrueType font rendering
+into an SDL2 application using the SDL2_ttf library.
 
+**What I implemented:**
+- TTF initialization and error handling
+- Loading a TrueType font (Roboto Condensed) at runtime
+- Rendering text to a surface with `TTF_RenderText_Solid()`
+- Converting surface to GPU texture for rendering
+- Correct resource cleanup order
+
+**Window & Text Config:**
+- Window: `400 x 600`, teal background `(0, 150, 150)`
+- Text: `"Hello ALFRED"`, white, font size `24`
+- Renderer: `SDL_RENDERER_SOFTWARE`
+
+---
+
+### Previous: PulseGuard Monitor (`heartrate.c`)
+✨ **Real-time ECG-style heartbeat waveform visualizer**
 A project born from a real health monitoring system 
 I was building with my team. I explored how low-level 
 C programming could be integrated into medical 
@@ -19,14 +36,12 @@ visualizations.
 - Coordinate system conversion for correct wave display
 
 **The Math Behind It:**
-
 f(t) = sin(t) + 1/2*sin(2t) + 1/3*sin(3t) + 1/4*sin(4t)
 
 ---
 
-### Previous: SDL2 Game Engine (`sdl2-game-engine.c`)
+### Earlier: SDL2 Game Engine (`sdl2-game-engine.c`)
 ✨ **Practicing diagonal movement with vector normalization**
-
 A learning project where I'm practicing:
 - Normalized diagonal movement using vector math
 - Hardware-accelerated rendering
@@ -87,6 +102,7 @@ Practice project with for loops and selective collision:
 11. `gravity.c` - Frame-rate independent gravity simulation
 12. `sdl2-game-engine.c` - Practicing vector normalization ⭐
 13. `heartrate.c` - Real-time pulse waveform monitor 🫀
+14. `sdl_ttf_text_rendering.c` - SDL2_ttf text rendering 🔤
 
 ---
 
@@ -113,6 +129,12 @@ Practice project with for loops and selective collision:
 - Coordinate system conversion
 - Harmonic frequency and amplitude
 
+### Text & UI Rendering
+- TrueType font loading with SDL2_ttf
+- Surface-to-texture pipeline for text
+- Positioning and sizing text with `SDL_Rect`
+- Correct TTF initialization and cleanup
+
 ### Performance
 - Hardware acceleration
 - VSync for smoother visuals
@@ -123,12 +145,16 @@ Practice project with for loops and selective collision:
 - C Programming
 - SDL2
 - SDL2_image
+- SDL2_ttf
 - math.h
 
 ---
 
 ## Compilation
 ```bash
+# Compile TTF text rendering
+gcc sdl_ttf_text_rendering.c -lSDL2 -lSDL2_ttf -o sdl_ttf_text_rendering
+
 # Compile PulseGuard Monitor
 gcc heartrate.c -lSDL2 -lm -o heartrate
 
@@ -145,7 +171,8 @@ gcc gravity.c -lSDL2 -o gravity
 Exploring how C programming and SDL2 can be applied 
 to real world problems like health monitoring systems. 
 Understanding mathematics and how it applies to 
-programming.
+programming. Now branching into UI and text rendering
+with SDL2_ttf for richer visual output.
 
 These are learning exercises, not polished projects 
 - but that's the point! 🚀
